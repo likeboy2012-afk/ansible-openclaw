@@ -1,0 +1,7 @@
+# This is an example file for host_vars configuration.
+# DO NOT use real API keys here. Replace placeholders with actual values in your own host_vars file.
+
+openai_key: 'sk-example-placeholder-key'  # Replace with your actual API key
+skills:
+  filesystem: false
+  browser: false

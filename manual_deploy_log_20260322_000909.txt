@@ -1,0 +1,88 @@
+[2026-03-22 00:09:09] Starting manual deployment script for OpenClaw to windows-endpoint
+[2026-03-22 00:09:09] Checking for sshpass installation...
+[2026-03-22 00:09:09] Testing SSH connection to windows-endpoint...
+Warning: Permanently added '192.168.50.202' (ED25519) to the list of known hosts.
+'SSH connection successful'
+[2026-03-22 00:09:10] SSH connection test successful.
+[2026-03-22 00:09:10] Testing Ansible ping to windows-endpoint...
+ansible [core 2.16.3]
+  config file = None
+  configured module search path = ['/home/admin/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  ansible collection location = /home/admin/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible
+  python version = 3.12.3 (main, Jan 22 2026, 20:57:42) [GCC 13.3.0] (/usr/bin/python3)
+  jinja version = 3.1.2
+  libyaml = True
+No config file found; using defaults
+host_list declined parsing /home/admin/.openclaw/workspace/ansible-openclaw/inventory.yaml as it did not pass its verify_file() method
+script declined parsing /home/admin/.openclaw/workspace/ansible-openclaw/inventory.yaml as it did not pass its verify_file() method
+Parsed /home/admin/.openclaw/workspace/ansible-openclaw/inventory.yaml inventory source with yaml plugin
+Skipping callback 'default', as we already have a stdout callback.
+Skipping callback 'minimal', as we already have a stdout callback.
+Skipping callback 'oneline', as we already have a stdout callback.
+[DEPRECATION WARNING]: Non UTF-8 encoded data replaced with "?" while 
+displaying text to stdout/stderr, this is temporary and will become an error. 
+This feature will be removed in version 2.18. Deprecation warnings can be 
+disabled by setting deprecation_warnings=False in ansible.cfg.
+<192.168.50.202> ESTABLISH SSH CONNECTION FOR USER: user
+<192.168.50.202> SSH: EXEC sshpass -d12 ssh -C -o ControlMaster=auto -o ControlPersist=60s -o Port=22 -o 'User="user"' -o ConnectTimeout=10 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o 'ControlPath="/home/admin/.ansible/cp/b01e6a1ad8"' 192.168.50.202 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo C:\Users\user\AppData\Local\Temp\ansible-tmp `"&& mkdir "` echo C:\Users\user\AppData\Local\Temp\ansible-tmp/ansible-tmp-1774109350.5612862-473858-83253613965913 `" && echo ansible-tmp-1774109350.5612862-473858-83253613965913="` echo C:\Users\user\AppData\Local\Temp\ansible-tmp/ansible-tmp-1774109350.5612862-473858-83253613965913 `" ) && sleep 0'"'"''
+<192.168.50.202> (1, b'', b"Warning: Permanently added '192.168.50.202' (ED25519) to the list of known hosts.\r\n\xa8t\xb2\xce\xa7\xe4\xa4\xa3\xa8\xec\xab\xfc\xa9w\xaa\xba\xb8\xf4\xae|\xa1C\r\n")
+<192.168.50.202> Failed to connect to the host via ssh: Warning: Permanently added '192.168.50.202' (ED25519) to the list of known hosts.
+?t?Χ䤣?w?|?C
+windows-endpoint | UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to create temporary directory. In some cases, you may have been able to authenticate and did not have permissions on the target directory. Consider changing the remote tmp path in ansible.cfg to a path rooted in \"/tmp\", for more error information use -vvv. Failed command was: ( umask 77 && mkdir -p \"` echo C:\\Users\\user\\AppData\\Local\\Temp\\ansible-tmp `\"&& mkdir \"` echo C:\\Users\\user\\AppData\\Local\\Temp\\ansible-tmp/ansible-tmp-1774109350.5612862-473858-83253613965913 `\" && echo ansible-tmp-1774109350.5612862-473858-83253613965913=\"` echo C:\\Users\\user\\AppData\\Local\\Temp\\ansible-tmp/ansible-tmp-1774109350.5612862-473858-83253613965913 `\" ), exited with result 1",
+    "unreachable": true
+}
+[2026-03-22 00:09:11] Ansible ping test successful.
+[2026-03-22 00:09:11] Running Ansible playbook to deploy OpenClaw to windows-endpoint...
+ansible-playbook [core 2.16.3]
+  config file = None
+  configured module search path = ['/home/admin/.ansible/plugins/modules', '/usr/share/ansible/plugins/modules']
+  ansible python module location = /usr/lib/python3/dist-packages/ansible
+  ansible collection location = /home/admin/.ansible/collections:/usr/share/ansible/collections
+  executable location = /usr/bin/ansible-playbook
+  python version = 3.12.3 (main, Jan 22 2026, 20:57:42) [GCC 13.3.0] (/usr/bin/python3)
+  jinja version = 3.1.2
+  libyaml = True
+No config file found; using defaults
+host_list declined parsing /home/admin/.openclaw/workspace/ansible-openclaw/inventory.yaml as it did not pass its verify_file() method
+script declined parsing /home/admin/.openclaw/workspace/ansible-openclaw/inventory.yaml as it did not pass its verify_file() method
+Parsed /home/admin/.openclaw/workspace/ansible-openclaw/inventory.yaml inventory source with yaml plugin
+redirecting (type: modules) ansible.builtin.win_file to ansible.windows.win_file
+redirecting (type: action) ansible.builtin.win_template to ansible.windows.win_template
+redirecting (type: modules) ansible.builtin.win_chocolatey to chocolatey.chocolatey.win_chocolatey
+redirecting (type: modules) ansible.builtin.docker_container to community.docker.docker_container
+redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+redirecting (type: modules) ansible.builtin.win_shell to ansible.windows.win_shell
+Skipping callback 'default', as we already have a stdout callback.
+Skipping callback 'minimal', as we already have a stdout callback.
+Skipping callback 'oneline', as we already have a stdout callback.
+
+PLAYBOOK: deploy_openclaw.yaml *************************************************
+1 plays in /home/admin/.openclaw/workspace/ansible-openclaw/deploy_openclaw.yaml
+
+PLAY [Deploy OpenClaw to nodes] ************************************************
+
+TASK [Gathering Facts] *********************************************************
+task path: /home/admin/.openclaw/workspace/ansible-openclaw/deploy_openclaw.yaml:2
+[DEPRECATION WARNING]: Non UTF-8 encoded data replaced with "?" while 
+displaying text to stdout/stderr, this is temporary and will become an error. 
+This feature will be removed in version 2.18. Deprecation warnings can be 
+disabled by setting deprecation_warnings=False in ansible.cfg.
+<192.168.50.202> ESTABLISH SSH CONNECTION FOR USER: user
+<192.168.50.202> SSH: EXEC sshpass -d12 ssh -C -o ControlMaster=auto -o ControlPersist=60s -o Port=22 -o 'User="user"' -o ConnectTimeout=10 -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -o 'ControlPath="/home/admin/.ansible/cp/b01e6a1ad8"' 192.168.50.202 '/bin/sh -c '"'"'( umask 77 && mkdir -p "` echo C:\Users\user\AppData\Local\Temp\ansible-tmp `"&& mkdir "` echo C:\Users\user\AppData\Local\Temp\ansible-tmp/ansible-tmp-1774109351.7602382-473876-269609385908146 `" && echo ansible-tmp-1774109351.7602382-473876-269609385908146="` echo C:\Users\user\AppData\Local\Temp\ansible-tmp/ansible-tmp-1774109351.7602382-473876-269609385908146 `" ) && sleep 0'"'"''
+<192.168.50.202> (1, b'', b'\xa8t\xb2\xce\xa7\xe4\xa4\xa3\xa8\xec\xab\xfc\xa9w\xaa\xba\xb8\xf4\xae|\xa1C\r\n')
+<192.168.50.202> Failed to connect to the host via ssh: ?t?Χ䤣?w?|?C
+fatal: [windows-endpoint]: UNREACHABLE! => {
+    "changed": false,
+    "msg": "Failed to create temporary directory. In some cases, you may have been able to authenticate and did not have permissions on the target directory. Consider changing the remote tmp path in ansible.cfg to a path rooted in \"/tmp\", for more error information use -vvv. Failed command was: ( umask 77 && mkdir -p \"` echo C:\\Users\\user\\AppData\\Local\\Temp\\ansible-tmp `\"&& mkdir \"` echo C:\\Users\\user\\AppData\\Local\\Temp\\ansible-tmp/ansible-tmp-1774109351.7602382-473876-269609385908146 `\" && echo ansible-tmp-1774109351.7602382-473876-269609385908146=\"` echo C:\\Users\\user\\AppData\\Local\\Temp\\ansible-tmp/ansible-tmp-1774109351.7602382-473876-269609385908146 `\" ), exited with result 1",
+    "unreachable": true
+}
+
+PLAY RECAP *********************************************************************
+windows-endpoint           : ok=0    changed=0    unreachable=1    failed=0    skipped=0    rescued=0    ignored=0   
+
+[2026-03-22 00:09:12] Deployment successful. Check the log for details.
+[2026-03-22 00:09:12] Manual deployment script completed. Log saved to /home/admin/.openclaw/workspace/ansible-openclaw/manual_deploy_log_20260322_000909.txt

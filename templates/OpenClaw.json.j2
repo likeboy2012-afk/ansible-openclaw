@@ -1,0 +1,11 @@
+{
+  "api": {
+    "openai": {
+      "key": "{{ openai_key }}"
+    }
+  },
+  "skills": {
+    "filesystem": {{ skills.filesystem | default(false) }},
+    "browser": {{ skills.browser | default(false) }}
+  }
+}

@@ -1,0 +1,37 @@
+---
+- name: Remove OpenClaw from nodes
+  hosts: openclaw_nodes
+  become: yes
+  tasks:
+    - name: Stop and remove OpenClaw container (Linux)
+      docker_container:
+        name: openclaw
+        state: absent
+      ignore_errors: yes
+      when: ansible_os_family != 'Windows'
+
+    - name: Stop and remove OpenClaw container (Windows)
+      win_docker_container:
+        name: openclaw
+        state: absent
+      ignore_errors: yes
+      when: ansible_os_family == 'Windows'
+
+    - name: Remove OpenClaw directory (Linux)
+      file:
+        path: /opt/openclaw
+        state: absent
+      when: ansible_os_family != 'Windows'
+
+    - name: Remove OpenClaw directory (Windows)
+      win_file:
+        path: C:\OpenClaw
+        state: absent
+      when: ansible_os_family == 'Windows'
+
+    - name: Uninstall Docker Desktop (Windows)
+      win_chocolatey:
+        name: docker-desktop
+        state: absent
+      ignore_errors: yes
+      when: ansible_os_family == 'Windows'

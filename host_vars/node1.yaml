@@ -1,0 +1,4 @@
+openai_key: 'sk-node1-placeholder-key'  # 請替換為實際 API 金鑰
+skills:
+  filesystem: false
+  browser: false

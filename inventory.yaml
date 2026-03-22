@@ -1,0 +1,37 @@
+all:
+  children:
+    openclaw_nodes:
+      hosts:
+        node1-sim:
+          ansible_host: localhost
+          ansible_port: 2221
+          ansible_user: root
+          ansible_password: rootpassword
+          ansible_connection: ssh
+          ansible_ssh_extra_args: '-o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+        node2-sim:
+          ansible_host: localhost
+          ansible_port: 2222
+          ansible_user: root
+          ansible_password: rootpassword
+          ansible_connection: ssh
+          ansible_ssh_extra_args: '-o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+        node3-sim:
+          ansible_host: localhost
+          ansible_port: 2223
+          ansible_user: root
+          ansible_password: rootpassword
+          ansible_connection: ssh
+          ansible_ssh_extra_args: '-o HostKeyAlgorithms=+ssh-rsa -o PubkeyAcceptedKeyTypes=+ssh-rsa -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+        windows-endpoint:
+          ansible_host: 192.168.50.202
+          ansible_user: 'user'
+          ansible_password: '356356'
+          ansible_connection: ssh
+          ansible_shell_type: powershell
+          ansible_shell_executable: powershell.exe
+          ansible_ssh_extra_args: '-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null'
+        # 若要擴充更多節點，請仿照以下格式新增
+        # node4:
+        #   ansible_host: 192.168.1.104  # 請替換為實際 IP
+        #   ansible_user: user4          # 請替換為實際用戶名

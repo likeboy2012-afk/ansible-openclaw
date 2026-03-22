@@ -1,0 +1,92 @@
+---
+- name: Deploy OpenClaw to nodes
+  hosts: openclaw_nodes
+  tasks:
+    - name: Create OpenClaw directory (Linux)
+      file:
+        path: /opt/openclaw
+        state: directory
+        mode: '0755'
+      when: ansible_os_family != 'Windows'
+
+    - name: Create OpenClaw directory (Windows)
+      win_file:
+        path: C:\OpenClaw
+        state: directory
+      when: ansible_os_family == 'Windows'
+
+    - name: Copy OpenClaw configuration (Linux)
+      template:
+        src: OpenClaw.json.j2
+        dest: /opt/openclaw/OpenClaw.json
+        mode: '0644'
+      when: ansible_os_family != 'Windows'
+
+    - name: Copy OpenClaw configuration (Windows)
+      win_template:
+        src: OpenClaw.json.j2
+        dest: C:\OpenClaw\OpenClaw.json
+      when: ansible_os_family == 'Windows'
+
+    - name: Install Docker (Linux)
+      package:
+        name: docker.io
+        state: present
+      when: ansible_os_family != 'Windows'
+
+    - name: Ensure Docker service is running (Linux)
+      service:
+        name: docker
+        state: started
+        enabled: yes
+      ignore_errors: yes
+      when: ansible_os_family != 'Windows'
+
+    - name: Install Docker Desktop (Windows)
+      win_chocolatey:
+        name: docker-desktop
+        state: present
+      ignore_errors: yes
+      when: ansible_os_family == 'Windows'
+
+    - name: Run OpenClaw container (Linux)
+      docker_container:
+        name: openclaw
+        image: openclaw/openclaw:latest
+        state: started
+        restart_policy: always
+        volumes:
+          - /opt/openclaw:/app/config
+        ports:
+          - "8080:8080"
+      ignore_errors: yes
+      when: ansible_os_family != 'Windows'
+
+    - name: Ensure Docker service is running (Windows)
+      win_shell: |
+        $dockerService = Get-Service -Name "com.docker.service" -ErrorAction SilentlyContinue
+        if (-not $dockerService) {
+            Write-Output "Docker service not found, attempting to start Docker Desktop"
+            Start-Process -FilePath "C:\Program Files\Docker\Docker\Docker Desktop.exe" -ErrorAction SilentlyContinue
+            Start-Sleep -Seconds 30
+        } else {
+            Start-Service -Name "com.docker.service" -ErrorAction SilentlyContinue
+        }
+      ignore_errors: yes
+      when: ansible_os_family == 'Windows'
+
+    - name: Run OpenClaw container (Windows)
+      win_shell: |
+        $dockerRunning = docker info --format '{{.ServerVersion}}' 2>$null
+        if (-not $dockerRunning) {
+            Write-Output "Docker not running, please ensure Docker Desktop is started"
+            exit 1
+        }
+        $containerExists = docker ps -a --filter "name=openclaw" --format '{{.Names}}' | Select-String "openclaw"
+        if (-not $containerExists) {
+            docker run -d --name openclaw --restart always -v "C:\OpenClaw:C:\app\config" -p 8080:8080 openclaw/openclaw:latest
+        } else {
+            docker start openclaw
+        }
+      ignore_errors: yes
+      when: ansible_os_family == 'Windows'
